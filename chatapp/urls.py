@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.home)
+    path('chat/<str:uid>',views.home)
 
 ]

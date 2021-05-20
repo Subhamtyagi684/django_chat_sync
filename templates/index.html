@@ -16,7 +16,7 @@
     </form>
     </body>
     <script>
-        const url = 'ws://localhost:8000/ws/chat/'
+        const url = `ws://localhost:8000/ws${window.location.pathname}/`
         const ws = new WebSocket(url)
 
         ws.onopen = function(event){
