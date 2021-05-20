@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat app</title>
+    </head>
+    <body>
+        <center><h1>Hello world</h1></center>
+        <div style="margin: auto;border:1px solid black;height: 400px;width: 400px;overflow: auto;margin-bottom: 10px;">
+            <ul id="myList" style="list-style: none;">
+
+            </ul>
+        </div>
+        <center><form id="myForm" onclick="return sendMessage(event)">
+        <input type="text" id="message"/>
+        <input type='submit' value='Send message'></center>
+    </form>
+    </body>
+    <script>
+        const url = 'ws://localhost:8000/ws/chat/'
+        const ws = new WebSocket(url)
+
+        ws.onopen = function(event){
+            console.log('connection is opened')
+        }
+
+        ws.onmessage = function(event){
+            console.log('one message is received')
+            var node = document.createElement("LI");
+            var textnode = document.createTextNode(event['data']);  
+            node.appendChild(textnode); 
+            document.getElementById("myList").appendChild(node);
+        }
+
+        ws.onclose = function(event){
+            console.log('connection is closed')
+            console.log(event)
+        }
+
+        ws.onerror = function(event){
+            console.log('error')
+            console.log(event)
+        }
+
+        function sendMessage(event){
+            event.preventDefault();
+            ws.send(document.getElementById('message').value)
+            document.getElementById('myForm').reset()
+            return false
+        }
+    </script>
+</html>
